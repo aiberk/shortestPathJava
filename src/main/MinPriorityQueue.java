@@ -28,6 +28,7 @@ public class MinPriorityQueue {
 
         // Print the heap
         queue.printHeap();
+        System.out.println(queue.toString());
 
         // Pull the highest priority element and print it
         GraphNode minNode = queue.pullHighestPriorityElement();
@@ -66,6 +67,8 @@ public class MinPriorityQueue {
         int index = findIndex(node);
         if (index != -1) {
             if (index > 0 && node.priority < heap[parent(index)].priority) {
+                bubbleUp(index);
+            } else if ((index > 0 && node.priority == heap[parent(index)].priority)) {
                 bubbleUp(index);
             } else {
                 heapify(index);
@@ -146,6 +149,18 @@ public class MinPriorityQueue {
                 System.out.println(details);
             }
         }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            GraphNode node = heap[i];
+            sb.append(node.getId());
+            if (i < size - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
     }
 
 }
