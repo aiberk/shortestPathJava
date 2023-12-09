@@ -1,97 +1,90 @@
 package main;
 
+// Represents a HashMap that uses closed hashing (open addressing with linear probing)
 public class HashMap {
-    private static class Entry {
-        GraphNode key;
-        Integer value;
-        boolean isActive;
-
-        Entry(GraphNode key, Integer value) {
-            this.key = key;
-            this.value = value;
-            this.isActive = true;
-        }
-    }
 
     private Entry[] table;
     private int capacity;
     private int size;
-    private double loadFactorThreshold = 0.75; // Adjust this threshold as needed
+    private static final double LOAD_FACTOR_THRESHOLD = 0.75; // Load factor threshold for resizing
 
+    // Constructor with initial capacity
     public HashMap(int initialCapacity) {
         this.capacity = initialCapacity;
         this.table = new Entry[capacity];
         this.size = 0;
     }
 
+    // Sets a key-value pair in the HashMap
     public void set(GraphNode key, Integer value) {
-        // Check and resize if needed
-        if ((double) size / capacity > loadFactorThreshold) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        // Resize if load factor exceeds threshold
+        if ((double) size / capacity >= LOAD_FACTOR_THRESHOLD) {
             resize();
         }
-
         int index = hash(key);
-        while (table[index] != null && !isKeyEqual(table[index].key, key)) {
-            index = (index + 1) % capacity; // Linear probing
+        while (table[index] != null && !table[index].key.getId().equals(key.getId())) {
+            index = (index + 1) % capacity; // Linear probing for collision resolution
         }
-
-        if (table[index] == null || !table[index].isActive) {
+        // Insert new entry or update existing one
+        if (table[index] == null) {
+            table[index] = new Entry(key, value);
             size++;
+        } else {
+            table[index].value = value;
+            table[index].isActive = true; // Mark as active in case it was previously deleted
         }
-
-        table[index] = new Entry(key, value);
     }
 
+    // Gets the value associated with a key
     public Integer get(GraphNode key) {
+        if (key == null) {
+            return null;
+        }
         int index = findIndex(key);
-        return (index != -1) ? table[index].value : null;
+        return (index != -1 && table[index].isActive) ? table[index].value : null;
     }
 
+    // Checks if the key exists in the HashMap
     public boolean hasKey(GraphNode key) {
         return findIndex(key) != -1;
     }
 
+    // Helper method to find the index of a key
     private int findIndex(GraphNode key) {
         int index = hash(key);
-        while (table[index] != null) {
-            if (isKeyEqual(table[index].key, key) && table[index].isActive) {
-                return index;
-            }
+        while (table[index] != null && !table[index].key.getId().equals(key.getId())) {
             index = (index + 1) % capacity;
         }
-        return -1;
+        return (table[index] != null && table[index].isActive) ? index : -1;
     }
 
+    // Hash function based on the key's unique ID
     private int hash(GraphNode key) {
         return Math.abs(key.getId().hashCode()) % capacity;
     }
 
-    private boolean isKeyEqual(GraphNode a, GraphNode b) {
-        return a.getId().equals(b.getId());
+    // Resizes the table when the load factor threshold is exceeded
+    private void resize() {
+        int newCapacity = capacity * 2;
+        Entry[] oldTable = table;
+        table = new Entry[newCapacity];
+        capacity = newCapacity;
+        size = 0;
+        // Rehash all active entries
+        for (Entry entry : oldTable) {
+            if (entry != null && entry.isActive) {
+                set(entry.key, entry.value);
+            }
+        }
     }
 
+    // Returns the number of key-value pairs in the HashMap
     public int size() {
         return size;
     }
 
-    private void resize() {
-        // Double the capacity and rehash all existing entries
-        int newCapacity = capacity * 2;
-        Entry[] newTable = new Entry[newCapacity];
-
-        for (Entry entry : table) {
-            if (entry != null && entry.isActive) {
-                int index = hash(entry.key);
-                while (newTable[index] != null) {
-                    index = (index + 1) % newCapacity;
-                }
-                newTable[index] = entry;
-            }
-        }
-
-        table = newTable;
-        capacity = newCapacity;
-    }
-
-    // Additional methods for handling deletion, if needed
+    // Additional methods (like delete) can be added if needed
 }

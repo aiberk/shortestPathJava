@@ -1,24 +1,14 @@
 package main;
 
 public class Entry {
-    private GraphNode key;
-    private int value;
+    public GraphNode key;
+    public int value;
+    public boolean isActive;
 
     public Entry(GraphNode key, int value) {
         this.key = key;
         this.value = value;
+        this.isActive = true;
     }
 
-    public GraphNode getKey() {
-        return key;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
 }
-
