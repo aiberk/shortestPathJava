@@ -13,7 +13,6 @@ public class HashMapTest {
 
 	@BeforeEach
 	void setUp() {
-		// Initialize your HashMap before each test
 		hashMap = new HashMap(16);
 	}
 

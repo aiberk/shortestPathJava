@@ -11,8 +11,7 @@ public class FindMinPath {
         GraphNode home = gw.getHome();
         home.priority = 0;
 
-        MinPriorityQueue queue = new MinPriorityQueue(10); // Adjust size as needed
-        queue.insert(home);
+        MinPriorityQueue queue = new MinPriorityQueue(10);
 
         GraphNode answer = null;
 
@@ -23,7 +22,7 @@ public class FindMinPath {
                 answer = curr;
                 break;
             } else {
-                // Check and process all possible directions
+
                 processNeighbor(curr, curr.getNorth(), curr.getNorthWeight(), "North", queue);
                 processNeighbor(curr, curr.getSouth(), curr.getSouthWeight(), "South", queue);
                 processNeighbor(curr, curr.getWest(), curr.getWestWeight(), "West", queue);
@@ -32,7 +31,7 @@ public class FindMinPath {
         }
 
         if (answer != null) {
-            // First, count the number of steps in the path
+
             int pathLength = 0;
             GraphNode temp = answer;
             while (temp.previousNode != null) {
@@ -40,7 +39,6 @@ public class FindMinPath {
                 temp = temp.previousNode;
             }
 
-            // Create an array to store the directions
             String[] directions = new String[pathLength];
             temp = answer;
             int index = pathLength - 1;
@@ -50,7 +48,6 @@ public class FindMinPath {
                 index--;
             }
 
-            // Write directions to a file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("answer.txt"))) {
                 for (String direction : directions) {
                     writer.write(direction);
@@ -68,7 +65,7 @@ public class FindMinPath {
             MinPriorityQueue queue) {
         if (neighbor != null) {
             int newPriority = current.priority + weight;
-            if (!queue.indexMap.hasKey(neighbor)) { // Use hasKey instead of contains
+            if (!queue.indexMap.hasKey(neighbor)) {
                 neighbor.priority = newPriority;
                 neighbor.previousNode = current;
                 neighbor.previousDirection = direction;
