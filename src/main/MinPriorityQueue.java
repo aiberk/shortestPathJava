@@ -1,41 +1,35 @@
 package main;
 
 public class MinPriorityQueue {
-    private GraphNode[] heap;
-    private int size;
-    private int capacity;
-    private HashMap indexMap;
+    public GraphNode[] heap;
+    public int size;
+    public int capacity;
+    public HashMap indexMap;
 
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-        // Example: Print out the command-line arguments
-        System.out.println("Command-line arguments:");
-        for (String arg : args) {
-            System.out.println(arg);
-        }
+    // // Example usage of MinPriorityQueue
+    // MinPriorityQueue queue = new MinPriorityQueue(10);
 
-        // Example usage of MinPriorityQueue
-        MinPriorityQueue queue = new MinPriorityQueue(10);
+    // // Insert nodes into the queue (example)
+    // GraphNode node1 = new GraphNode("1", false);
+    // node1.priority = 1;
+    // GraphNode node2 = new GraphNode("2", false);
+    // node2.priority = 2;
 
-        // Insert nodes into the queue (example)
-        GraphNode node1 = new GraphNode("1", false);
-        node1.priority = 1;
-        GraphNode node2 = new GraphNode("2", false);
-        node2.priority = 2;
+    // queue.insert(node1);
+    // queue.insert(node2);
 
-        queue.insert(node1);
-        queue.insert(node2);
+    // // Print the heap
+    // queue.printHeap();
+    // System.out.println(queue.toString());
 
-        // Print the heap
-        queue.printHeap();
-        System.out.println(queue.toString());
-
-        // Pull the highest priority element and print it
-        GraphNode minNode = queue.pullHighestPriorityElement();
-        if (minNode != null) {
-            System.out.println("Pulled node with highest priority: " + minNode.getId());
-        }
-    }
+    // // Pull the highest priority element and print it
+    // GraphNode minNode = queue.pullHighestPriorityElement();
+    // if (minNode != null) {
+    // System.out.println("Pulled node with highest priority: " + minNode.getId());
+    // }
+    // }
 
     public MinPriorityQueue(int capacity) {
         this.capacity = capacity;
