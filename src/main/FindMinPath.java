@@ -1,21 +1,24 @@
+/**
+ * Abraham Iberkleid
+ * aiberkleid@brandeis.edu
+ * December 9, 2023
+ * PA3
+ * Bugs: There are no known bugs. 
+ */
 package main;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class FindMinPath {
-    // TODO implement custom linkedList and custom list to remove
-    // java.util.LinkedList and java.util.Lists
 
     public static void main(String[] args) {
         GraphWrapper gw = new GraphWrapper(true);
         GraphNode home = gw.getHome();
         home.priority = 0;
 
-        MinPriorityQueue queue = new MinPriorityQueue(10); // Adjust size as needed
+        MinPriorityQueue queue = new MinPriorityQueue(10);
         queue.insert(home);
 
         GraphNode answer = null;
@@ -27,7 +30,7 @@ public class FindMinPath {
                 answer = curr;
                 break;
             } else {
-                // Check and process all possible directions
+
                 processNeighbor(curr, curr.getNorth(), curr.getNorthWeight(), "North", queue);
                 processNeighbor(curr, curr.getSouth(), curr.getSouthWeight(), "South", queue);
                 processNeighbor(curr, curr.getWest(), curr.getWestWeight(), "West", queue);
@@ -36,15 +39,16 @@ public class FindMinPath {
         }
 
         if (answer != null) {
-            List<String> directions = new LinkedList<>();
+            CustomLinkedList directions = new CustomLinkedList();
             while (answer.previousNode != null) {
-                directions.add(0, answer.previousDirection); // Add to start of list
+                directions.addFirst(answer.previousDirection);
                 answer = answer.previousNode;
             }
 
-            // Write directions to a file
+            String[] directionsArray = directions.toArray();
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("answer.txt"))) {
-                for (String direction : directions) {
+                for (String direction : directionsArray) {
                     writer.write(direction);
                     writer.newLine();
                 }

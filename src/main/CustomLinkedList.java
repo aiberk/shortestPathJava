@@ -1,3 +1,10 @@
+/**
+ * Abraham Iberkleid
+ * aiberkleid@brandeis.edu
+ * December 9, 2023
+ * PA3
+ * Bugs: There are no known bugs. 
+ */
 package main;
 
 public class CustomLinkedList {
