@@ -4,8 +4,19 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * The FindMinPath class is responsible for finding the shortest path in a graph
+ * using Dijkstra's algorithm and writing the path to a file.
+ */
 public class FindMinPath {
 
+    /**
+     * The main method that drives the path finding process.
+     * It uses a priority queue to efficiently find the shortest path to a goal
+     * node.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         GraphWrapper gw = new GraphWrapper(true);
         GraphNode home = gw.getHome();
@@ -61,6 +72,16 @@ public class FindMinPath {
         }
     }
 
+    /**
+     * Processes a neighbor node during the path finding process.
+     * Updates the neighbor's priority and previous node/direction if necessary.
+     *
+     * @param current   The current node being processed.
+     * @param neighbor  The neighbor node to be processed.
+     * @param weight    The weight of the edge to the neighbor.
+     * @param direction The direction from the current node to the neighbor.
+     * @param queue     The priority queue used for path finding.
+     */
     private static void processNeighbor(GraphNode current, GraphNode neighbor, int weight, String direction,
             MinPriorityQueue queue) {
         if (neighbor != null) {
