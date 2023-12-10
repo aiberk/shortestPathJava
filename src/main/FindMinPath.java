@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FindMinPath {
+    // TODO implement custom linkedList and custom list to remove
+    // java.util.LinkedList and java.util.Lists
 
     public static void main(String[] args) {
         GraphWrapper gw = new GraphWrapper(true);
