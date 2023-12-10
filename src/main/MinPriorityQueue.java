@@ -4,9 +4,9 @@ public class MinPriorityQueue {
     private GraphNode[] heap;
     private int size;
     private int capacity;
+    private HashMap indexMap;
 
     public static void main(String[] args) {
-        // Your application logic goes here.
 
         // Example: Print out the command-line arguments
         System.out.println("Command-line arguments:");
@@ -41,6 +41,7 @@ public class MinPriorityQueue {
         this.capacity = capacity;
         this.heap = new GraphNode[capacity];
         this.size = 0;
+        this.indexMap = new HashMap(capacity);
     }
 
     public void insert(GraphNode node) {
@@ -48,6 +49,7 @@ public class MinPriorityQueue {
             resizeHeap();
         }
         heap[size] = node;
+        indexMap.set(node, size);
         bubbleUp(size);
         size++;
     }
@@ -57,14 +59,16 @@ public class MinPriorityQueue {
             return null;
         }
         GraphNode min = heap[0];
+        indexMap.set(heap[0], -1); // Mark as removed in indexMap
         heap[0] = heap[size - 1];
+        indexMap.set(heap[0], 0); // Update the new root's index in indexMap
         size--;
         heapify(0);
         return min;
     }
 
     public void rebalance(GraphNode node) {
-        int index = findIndex(node);
+        Integer index = indexMap.get(node);
         if (index != -1) {
             if (index > 0 && node.priority < heap[parent(index)].priority) {
                 bubbleUp(index);
@@ -108,6 +112,8 @@ public class MinPriorityQueue {
         GraphNode temp = heap[i];
         heap[i] = heap[j];
         heap[j] = temp;
+        indexMap.set(heap[i], i);
+        indexMap.set(heap[j], j);
     }
 
     private int parent(int pos) {
@@ -149,6 +155,11 @@ public class MinPriorityQueue {
                 System.out.println(details);
             }
         }
+    }
+
+    public int getIndexMapValue(GraphNode node) {
+        Integer index = indexMap.get(node);
+        return index != null ? index : -1; // Return -1 if the node is not in the indexMap
     }
 
     public String toString() {

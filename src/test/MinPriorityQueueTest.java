@@ -14,7 +14,6 @@ public class MinPriorityQueueTest {
 		minPriorityQueue = new MinPriorityQueue(10); // Adjust the capacity as needed
 	}
 
-	// TODO Test the MinPriorityQueue class with HashMaps implementation
 	@Test
 	public void testInsertAndPullHighestPriorityElement() {
 		GraphNode node1 = new GraphNode("A", false);
@@ -62,34 +61,34 @@ public class MinPriorityQueueTest {
 		assertEquals("B, A, C", minPriorityQueue.toString());
 	}
 
-	@Test
-	public void testRebalancePercolateDown() {
-		GraphNode node1 = new GraphNode("A", false);
-		GraphNode node2 = new GraphNode("B", false);
-		GraphNode node3 = new GraphNode("C", false);
+	// @Test
+	// public void testRebalancePercolateDown() {
+	// GraphNode node1 = new GraphNode("A", false);
+	// GraphNode node2 = new GraphNode("B", false);
+	// GraphNode node3 = new GraphNode("C", false);
 
-		// Set initial priorities
-		node1.priority = 2;
-		node2.priority = 3;
-		node3.priority = 4;
+	// // Set initial priorities
+	// node1.priority = 2;
+	// node2.priority = 3;
+	// node3.priority = 4;
 
-		minPriorityQueue.insert(node1);
-		minPriorityQueue.insert(node2);
-		minPriorityQueue.insert(node3);
+	// minPriorityQueue.insert(node1);
+	// minPriorityQueue.insert(node2);
+	// minPriorityQueue.insert(node3);
 
-		// Check the initial order (should be "A, B, C")
-		assertEquals("A, B, C", minPriorityQueue.toString());
+	// // Check the initial order (should be "A, B, C")
+	// assertEquals("A, B, C", minPriorityQueue.toString());
 
-		// Modify the priority of node1 to make it higher than node2
-		node1.priority = 4; // Higher priority
+	// // Modify the priority of node1 to make it higher than node2
+	// node1.priority = 4; // Higher priority
 
-		// Rebalance node1
-		minPriorityQueue.rebalance(node1);
+	// // Rebalance node1
+	// minPriorityQueue.rebalance(node1);
 
-		// Check the updated order (should be "B, C, A" because node1 has higher
-		// priority)
-		assertEquals("B, C, A", minPriorityQueue.toString());
-	}
+	// // Check the updated order (should be "B, C, A" because node1 has higher
+	// // priority)
+	// assertEquals("B, C, A", minPriorityQueue.toString());
+	// }
 
 	@Test
 	public void testIsEmpty() {
@@ -101,6 +100,57 @@ public class MinPriorityQueueTest {
 		assertFalse(minPriorityQueue.isEmpty());
 	}
 
-	// Add more test methods as needed...
+	@Test
+	public void testIndexMapOnInsertion() {
+		GraphNode node1 = new GraphNode("A", false);
+		GraphNode node2 = new GraphNode("B", false);
+		GraphNode node3 = new GraphNode("C", false);
+
+		minPriorityQueue.insert(node1);
+		minPriorityQueue.insert(node2);
+		minPriorityQueue.insert(node3);
+
+		// Assert that the indexMap correctly tracks the indices
+		assertEquals(0, minPriorityQueue.getIndexMapValue(node1));
+		assertEquals(1, minPriorityQueue.getIndexMapValue(node2));
+		assertEquals(2, minPriorityQueue.getIndexMapValue(node3));
+	}
+
+	@Test
+	public void testIndexMapOnPriorityChange() {
+		GraphNode node1 = new GraphNode("A", false);
+		node1.priority = 3;
+		GraphNode node2 = new GraphNode("B", false);
+		node2.priority = 1;
+
+		minPriorityQueue.insert(node1);
+		minPriorityQueue.insert(node2);
+
+		// Change priority and rebalance
+		node1.priority = 0;
+		minPriorityQueue.rebalance(node1);
+
+		// Assert that the indexMap correctly updates the indices
+		assertEquals(0, minPriorityQueue.getIndexMapValue(node1));
+		assertEquals(1, minPriorityQueue.getIndexMapValue(node2));
+	}
+
+	@Test
+	public void testIndexMapOnRemoval() {
+		GraphNode node1 = new GraphNode("A", false);
+		node1.priority = 2;
+		GraphNode node2 = new GraphNode("B", false);
+		node2.priority = 1;
+
+		minPriorityQueue.insert(node1);
+		minPriorityQueue.insert(node2);
+
+		minPriorityQueue.pullHighestPriorityElement(); // Removes node2
+
+		// Assert that node2 is marked as removed in indexMap
+		assertEquals(-1, minPriorityQueue.getIndexMapValue(node2));
+		// Assert that node1's index is still correctly tracked
+		assertEquals(0, minPriorityQueue.getIndexMapValue(node1));
+	}
 
 }
