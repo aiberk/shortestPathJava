@@ -1,35 +1,20 @@
-/**
- * Abraham Iberkleid
- * aiberkleid@brandeis.edu
- * December 9, 2023
- * PA3
- * Bugs: There are no known bugs. 
- */
 package main;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-/**
- * The FindMinPath class is responsible for finding the shortest path in a graph
- * using Dijkstra's algorithm and writing the path to a file.
- */
 public class FindMinPath {
 
-    /**
-     * The main method that drives the path finding process.
-     * It uses a priority queue to efficiently find the shortest path to a goal
-     * node.
-     *
-     * @param args The command-line arguments.
-     */
     public static void main(String[] args) {
         GraphWrapper gw = new GraphWrapper(true);
         GraphNode home = gw.getHome();
         home.priority = 0;
 
-        MinPriorityQueue queue = new MinPriorityQueue(10);
+        MinPriorityQueue queue = new MinPriorityQueue(10); // Adjust size as needed
+        queue.insert(home);
 
         GraphNode answer = null;
 
@@ -40,7 +25,7 @@ public class FindMinPath {
                 answer = curr;
                 break;
             } else {
-
+                // Check and process all possible directions
                 processNeighbor(curr, curr.getNorth(), curr.getNorthWeight(), "North", queue);
                 processNeighbor(curr, curr.getSouth(), curr.getSouthWeight(), "South", queue);
                 processNeighbor(curr, curr.getWest(), curr.getWestWeight(), "West", queue);
@@ -49,23 +34,13 @@ public class FindMinPath {
         }
 
         if (answer != null) {
-
-            int pathLength = 0;
-            GraphNode temp = answer;
-            while (temp.previousNode != null) {
-                pathLength++;
-                temp = temp.previousNode;
+            List<String> directions = new LinkedList<>();
+            while (answer.previousNode != null) {
+                directions.add(0, answer.previousDirection); // Add to start of list
+                answer = answer.previousNode;
             }
 
-            String[] directions = new String[pathLength];
-            temp = answer;
-            int index = pathLength - 1;
-            while (temp.previousNode != null) {
-                directions[index] = temp.previousDirection;
-                temp = temp.previousNode;
-                index--;
-            }
-
+            // Write directions to a file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("answer.txt"))) {
                 for (String direction : directions) {
                     writer.write(direction);
@@ -79,21 +54,11 @@ public class FindMinPath {
         }
     }
 
-    /**
-     * Processes a neighbor node during the path finding process.
-     * Updates the neighbor's priority and previous node/direction if necessary.
-     *
-     * @param current   The current node being processed.
-     * @param neighbor  The neighbor node to be processed.
-     * @param weight    The weight of the edge to the neighbor.
-     * @param direction The direction from the current node to the neighbor.
-     * @param queue     The priority queue used for path finding.
-     */
     private static void processNeighbor(GraphNode current, GraphNode neighbor, int weight, String direction,
             MinPriorityQueue queue) {
         if (neighbor != null) {
             int newPriority = current.priority + weight;
-            if (!queue.indexMap.hasKey(neighbor)) {
+            if (!queue.indexMap.hasKey(neighbor)) { // Use hasKey instead of contains
                 neighbor.priority = newPriority;
                 neighbor.previousNode = current;
                 neighbor.previousDirection = direction;
