@@ -60,7 +60,7 @@ public class FindMinPath {
             MinPriorityQueue queue) {
         if (neighbor != null) {
             int newPriority = current.priority + weight;
-            if (!queue.indexMap.hasKey(neighbor)) { // Use hasKey instead of contains
+            if (!queue.indexMap.hasKey(neighbor)) {
                 neighbor.priority = newPriority;
                 neighbor.previousNode = current;
                 neighbor.previousDirection = direction;
