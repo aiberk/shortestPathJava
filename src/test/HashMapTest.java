@@ -52,5 +52,4 @@ public class HashMapTest {
 		assertFalse(hashMap.hasKey(key2));
 	}
 
-	// Add more test cases as needed to cover various scenarios and edge cases
 }

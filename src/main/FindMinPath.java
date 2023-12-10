@@ -3,8 +3,6 @@ package main;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class FindMinPath {
 
@@ -34,10 +32,22 @@ public class FindMinPath {
         }
 
         if (answer != null) {
-            List<String> directions = new LinkedList<>();
-            while (answer.previousNode != null) {
-                directions.add(0, answer.previousDirection); // Add to start of list
-                answer = answer.previousNode;
+            // First, count the number of steps in the path
+            int pathLength = 0;
+            GraphNode temp = answer;
+            while (temp.previousNode != null) {
+                pathLength++;
+                temp = temp.previousNode;
+            }
+
+            // Create an array to store the directions
+            String[] directions = new String[pathLength];
+            temp = answer;
+            int index = pathLength - 1;
+            while (temp.previousNode != null) {
+                directions[index] = temp.previousDirection;
+                temp = temp.previousNode;
+                index--;
             }
 
             // Write directions to a file
