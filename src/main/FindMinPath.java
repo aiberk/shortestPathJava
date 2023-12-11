@@ -39,7 +39,7 @@ public class FindMinPath {
      */
     private static MinPriorityQueue initializeQueue(GraphNode home) {
         home.priority = 0;
-        MinPriorityQueue queue = new MinPriorityQueue(10);
+        MinPriorityQueue queue = new MinPriorityQueue();
         queue.insert(home);
         return queue;
     }

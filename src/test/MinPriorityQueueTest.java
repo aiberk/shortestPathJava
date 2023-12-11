@@ -18,7 +18,7 @@ public class MinPriorityQueueTest {
 
 	@BeforeEach
 	public void setUp() {
-		minPriorityQueue = new MinPriorityQueue(10);
+		minPriorityQueue = new MinPriorityQueue();
 	}
 
 	@Test
