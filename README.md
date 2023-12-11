@@ -15,7 +15,3 @@
 - **Custom Implementation**: Both the min-priority queue and the hash map are custom implemented. This provides a great opportunity to understand the underlying mechanics of these data structures and their role in the efficient execution of Dijkstra’s algorithm.
 
 ## Usage
-
-To use `shortestPathJava`, follow these steps:
-
-1. **Clone the Repository**:
