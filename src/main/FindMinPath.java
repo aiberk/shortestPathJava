@@ -33,11 +33,7 @@ public class FindMinPath {
 
     /**
      * Initializes the priority queue with the home node.
-     * Because of the nature of the program using a MinHeap with Dijkstra's
-     * algorithm, the directions are
-     * acquired in reverse order. A linked list is used to store the directions
-     * and then the directions are written to a file in the correct order.
-     *
+     * 
      * @param home The starting node of the graph.
      * @return Initialized MinPriorityQueue with the home node.
      */
@@ -85,6 +81,10 @@ public class FindMinPath {
 
     /**
      * Writes the path directions to a file named "answer.txt".
+     * Because of the nature of the program using a MinHeap with Dijkstra's
+     * algorithm, the directions are
+     * acquired in reverse order. A linked list is used to store the directions
+     * and then the directions are written to a file in the correct order.
      *
      * @param answer The goal node from which the path is traced back to the start
      *               node.
