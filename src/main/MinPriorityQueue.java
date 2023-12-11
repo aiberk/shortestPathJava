@@ -16,17 +16,18 @@ public class MinPriorityQueue {
     public int size;
     public int capacity;
     public HashMap indexMap;
+    public int INITIAL_CAPACITY = 10;
 
     /**
      * Constructs a MinPriorityQueue with a specified capacity.
      * 
      * @param capacity The capacity of the priority queue.
      */
-    public MinPriorityQueue(int capacity) {
-        this.capacity = capacity;
-        this.heap = new GraphNode[capacity];
+    public MinPriorityQueue() {
+        this.capacity = INITIAL_CAPACITY;
+        this.heap = new GraphNode[INITIAL_CAPACITY];
         this.size = 0;
-        this.indexMap = new HashMap(capacity);
+        this.indexMap = new HashMap(INITIAL_CAPACITY);
     }
 
     /**
